@@ -33,11 +33,25 @@ import {
   User as UserIcon,
   X,
   Zap,
+  type LucideIcon,
 } from "lucide-react";
 import type { Booking } from "@/lib/types";
 import { fmtMoney } from "@/lib/utils";
 
-const CUSTOMER_NAV = [
+interface CustomerNavItem {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  badge?: string;
+  href?: string;
+}
+
+interface CustomerNavGroup {
+  group: string;
+  items: CustomerNavItem[];
+}
+
+const CUSTOMER_NAV: CustomerNavGroup[] = [
   {
     group: "Reservations",
     items: [

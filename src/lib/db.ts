@@ -4,7 +4,7 @@
 
 import mongoose, { Schema, model, models, type Model } from "mongoose";
 import { buildBookings, buildCars, buildLeads } from "./seed-data";
-import type { Booking, BookingStatus, Car, Lead, LeadStatus } from "./types";
+import type { Booking, BookingStatus, Car, Lead, LeadStatus, User } from "./types";
 import { uid } from "./utils";
 
 let memory: {
