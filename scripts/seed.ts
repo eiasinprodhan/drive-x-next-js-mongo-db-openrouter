@@ -7,7 +7,14 @@
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
+import dns from "dns";
 import { buildBookings, buildCars, buildLeads } from "../src/lib/seed-data";
+
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {
+  // ignore if not supported in environment
+}
 
 // Load .env.local if not already loaded in environment
 function loadEnv() {

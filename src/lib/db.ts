@@ -3,9 +3,16 @@
 // and an in-memory store (DEMO MODE) so the product always boots.
 
 import mongoose, { Schema, model, models, type Model } from "mongoose";
+import dns from "dns";
 import { buildBookings, buildCars, buildLeads } from "./seed-data";
 import type { Booking, BookingStatus, Car, Lead, LeadStatus, User } from "./types";
 import { uid } from "./utils";
+
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch {
+  // ignore
+}
 
 let memory: {
   cars: Car[];

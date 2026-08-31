@@ -6,6 +6,7 @@ import { Bot, ChevronDown, RotateCcw, SlidersHorizontal, Sparkles } from "lucide
 import { useFetch } from "@/lib/api";
 import type { Car } from "@/lib/types";
 import CarCard from "./CarCard";
+import CarCardSkeleton from "./CarCardSkeleton";
 import AiMatchQuiz from "./AiMatchQuiz";
 
 const CATS = ["All", "Popular", "Large Car", "Small Car", "Exclusive Car"];
@@ -134,7 +135,9 @@ function CarsInner() {
       {loading ? (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="card h-80 animate-pulse bg-navy-50" />
+            <div key={i} className="animate-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+              <CarCardSkeleton />
+            </div>
           ))}
         </div>
       ) : list.length === 0 ? (

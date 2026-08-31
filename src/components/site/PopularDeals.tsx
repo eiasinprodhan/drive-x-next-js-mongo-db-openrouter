@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useFetch } from "@/lib/api";
 import type { Car, CarCategory } from "@/lib/types";
 import CarCard from "./CarCard";
+import CarCardSkeleton from "./CarCardSkeleton";
 
 const TABS: Array<"Popular" | CarCategory> = ["Popular", "Large Car", "Small Car", "Exclusive Car"];
 
@@ -27,31 +28,37 @@ export default function PopularDeals() {
 
         {/* Tabs */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-1 rounded-2xl border border-navy-100 bg-white p-1.5 shadow-card max-xl:mx-auto max-xl:max-w-xl">
-          {TABS.map((t) => (
-            <button
-              key={t}
-              onClick={() => {
-                setTab(t);
-                setLimit(8);
-              }}
-              className={`flex-1 whitespace-nowrap rounded-xl px-4 py-2.5 text-xs font-bold transition sm:px-6 sm:text-sm ${
-                tab === t ? "bg-navy-950 text-white shadow" : "text-navy-500 hover:bg-navy-50 hover:text-navy-900"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {TABS.map((t) => {
+            const isActive = tab === t;
+            return (
+              <button
+                key={t}
+                onClick={() => {
+                  setTab(t);
+                  setLimit(8);
+                }}
+                className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-xs font-bold transition-all duration-200 sm:px-6 sm:text-sm ${
+                  isActive ? "bg-navy-950 text-white shadow-md" : "text-navy-500 hover:bg-navy-50 hover:text-navy-900"
+                }`}
+              >
+                {isActive && loading && <Loader2 size={13} className="animate-spin text-brand-400" />}
+                <span>{t}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Grid */}
         {loading ? (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="card h-80 animate-pulse bg-navy-50" />
+              <div key={i} className="animate-fade-in" style={{ animationDelay: `${i * 60}ms` }}>
+                <CarCardSkeleton />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid animate-fade-in gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {shown.map((car) => (
               <CarCard key={car.id} car={car} />
             ))}
